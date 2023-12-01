@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Dir[File.expand_path('lib/**/*.rb', __dir__)].each { |f| require f }
+Dir[File.expand_path('../lib/**/*.rb', __dir__)].each { |f| require f }
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
