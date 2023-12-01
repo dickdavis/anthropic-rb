@@ -1,0 +1,17 @@
+PreCommit:
+  RuboCop:
+    enabled: true
+    on_warn: fail
+    problem_on_unmodified_line: ignore
+    command: ['bundle', 'exec', 'rubocop', '.']
+
+  Reek:
+    enabled: true
+    problem_on_unmodified_line: ignore
+    command: ['bundle', 'exec', 'reek']
+    flags: ['--single-line', '--no-color', '--force-exclusion']
+
+PostCheckout:
+  IndexTags:
+    enabled: true
+    quiet: false
