@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'version'
+require_relative 'anthropic/version'
 
 module Anthropic
   ##
