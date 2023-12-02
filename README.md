@@ -2,9 +2,19 @@
 
 Ruby bindings for the Anthropic API. This library is unofficial and is not affiliated with Anthropic PBC.
 
+The goal of this project is feature parity with Anthropic's Python SDK until an official Ruby SDK is available.
+
 ## Usage
 
-TODO: Write some code to use
+anthropic-rb will default to the value of the `ANTHROPIC_API_KEY` environment variable. However, you may initialize the library with your API key:
+
+```ruby
+require 'anthropic-rb'
+
+Anthropic.setup do |config|
+  config.api_key = 'YOUR_API_KEY'
+end
+```
 
 ## Installation
 
