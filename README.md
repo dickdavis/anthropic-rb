@@ -16,6 +16,25 @@ Anthropic.setup do |config|
 end
 ```
 
+To make a request to the Completions API:
+
+```ruby
+Anthropic.completions.create(
+  model: 'claude-2',
+  max_tokens_to_sample: 200,
+  prompt: 'Human: Yo what up?\n\nAssistant:'
+)
+
+# Output =>
+# {
+#   completion: "Hello! Not much going on with me, just chatting. How about you?",
+#   stop_reason: "stop_sequence",
+#   model: "claude-2.1",
+#   stop: "\n\nHuman:",
+#   log_id: "2496914137c520ec2b4ae8315864bcf3a4c6ce9f2e3c96e13be4c004587313ca"
+# }
+```
+
 ## Installation
 
 Add this line to your application's Gemfile:
