@@ -4,6 +4,7 @@ require 'httpx'
 
 require_relative 'anthropic/version'
 require_relative 'anthropic/client'
+require_relative 'anthropic/completions'
 
 ##
 # Namespace for anthropic-rb gem
@@ -22,5 +23,9 @@ module Anthropic
 
   def self.api_key=(api_key = nil)
     @api_key = api_key || ENV.fetch('ANTHROPIC_API_KEY', nil)
+  end
+
+  def self.completions
+    Completions.new
   end
 end
