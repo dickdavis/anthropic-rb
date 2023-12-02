@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     anthropic-rb (0.1.0)
+      httpx (>= 1.1.5)
 
 GEM
   remote: https://rubygems.org/
@@ -31,6 +32,9 @@ GEM
     drb (2.2.0)
       ruby2_keywords
     e2mmap (0.1.0)
+    http-2-next (1.0.1)
+    httpx (1.1.5)
+      http-2-next (>= 1.0.1)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     iniparse (1.5.0)

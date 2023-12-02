@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+require 'httpx'
+
 require_relative 'anthropic/version'
+require_relative 'anthropic/client'
 
 ##
 # Namespace for anthropic-rb gem

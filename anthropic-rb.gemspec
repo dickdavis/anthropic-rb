@@ -11,10 +11,8 @@ Gem::Specification.new do |spec|
   spec.summary = 'Ruby bindings for the Anthropic API'
   spec.homepage = 'https://github.com/dickdavis/anthropic-rb'
   spec.license = 'MIT'
-  spec.required_ruby_version = '>= 3.1'
 
   spec.metadata['allowed_push_host'] = 'https://rubygems.org'
-
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/dickdavis/anthropic-rb'
   spec.metadata['changelog_uri'] = 'https://github.com/dickdavis/anthropic-rb/blob/main/CHANGELOG.md'
@@ -37,4 +35,7 @@ Gem::Specification.new do |spec|
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
   spec.metadata['rubygems_mfa_required'] = 'true'
+
+  spec.required_ruby_version = '>= 3.1'
+  spec.add_dependency 'httpx', '>= 1.1.5'
 end

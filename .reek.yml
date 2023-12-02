@@ -2,3 +2,6 @@ detectors:
   ControlParameter:
     exclude:
       - Anthropic#self.api_key=
+  TooManyStatements:
+    exclude:
+      - 'Anthropic::Client#self.post'
