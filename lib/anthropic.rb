@@ -2,9 +2,9 @@
 
 require 'httpx'
 
-require_relative 'anthropic/version'
 require_relative 'anthropic/client'
 require_relative 'anthropic/completions'
+require_relative 'anthropic/version'
 
 ##
 # Namespace for anthropic-rb gem
