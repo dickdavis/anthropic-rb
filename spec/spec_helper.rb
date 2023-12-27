@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'webmock/rspec'
+require 'httpx/adapters/webmock'
+
 Dir[File.expand_path('../lib/**/*.rb', __dir__)].each { |f| require f }
 
 RSpec.configure do |config|
@@ -13,3 +16,5 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+WebMock.enable!
