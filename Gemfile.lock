@@ -3,6 +3,7 @@ PATH
   specs:
     anthropic-rb (0.1.0)
       httpx (>= 1.1.5)
+      json-schema (>= 4.1.1)
 
 GEM
   remote: https://rubygems.org/
@@ -17,6 +18,8 @@ GEM
       minitest (>= 5.1)
       mutex_m
       tzinfo (~> 2.0)
+    addressable (2.8.6)
+      public_suffix (>= 2.0.2, < 6.0)
     ast (2.4.2)
     backport (1.2.0)
     base64 (0.2.0)
@@ -44,6 +47,8 @@ GEM
       reline (>= 0.3.8)
     jaro_winkler (1.5.6)
     json (2.6.3)
+    json-schema (4.1.1)
+      addressable (>= 2.8)
     kramdown (2.4.0)
       rexml
     kramdown-parser-gfm (1.1.0)
@@ -66,6 +71,7 @@ GEM
       racc
     psych (5.1.1.1)
       stringio
+    public_suffix (5.0.4)
     racc (1.7.3)
     rainbow (3.1.1)
     rake (13.1.0)

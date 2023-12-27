@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'httpx'
+require 'json'
+require 'json-schema'
 
 require_relative 'anthropic/client'
 require_relative 'anthropic/completions'
