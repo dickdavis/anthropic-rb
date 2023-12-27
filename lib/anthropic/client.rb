@@ -31,13 +31,13 @@ module Anthropic
   ##
   # Provides a client for sending HTTP requests.
   class Client
-    # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
     def self.post(url, data)
       response = HTTPX.with(
         headers: {
           'Content-Type' => 'application/json',
           'x-api-key' => Anthropic.api_key,
-          'anthropic-version' => '2023-06-01'
+          'anthropic-version' => Anthropic.api_version
         }
       ).post(url, json: data)
 
@@ -64,6 +64,6 @@ module Anthropic
         raise Anthropic::InternalServerError, response_body
       end
     end
-    # rubocop:enable Metrics/MethodLength, Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
   end
 end

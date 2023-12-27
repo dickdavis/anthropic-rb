@@ -16,6 +16,18 @@ Anthropic.setup do |config|
 end
 ```
 
+You can also specify an API version to use by setting the `ANTHROPIC_API_VERSION` environment variable or during initialization:
+
+```ruby
+require 'anthropic-rb'
+
+Anthropic.setup do |config|
+  config.api_version = '2023-06-01'
+end
+```
+
+The default API version is `2023-06-01`.
+
 To make a request to the Completions API:
 
 ```ruby

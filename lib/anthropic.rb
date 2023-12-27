@@ -25,6 +25,14 @@ module Anthropic
     @api_key = api_key || ENV.fetch('ANTHROPIC_API_KEY', nil)
   end
 
+  def self.api_version
+    @api_version
+  end
+
+  def self.api_version=(api_version = nil)
+    @api_version = api_version || ENV.fetch('ANTHROPIC_API_VERSION', '2023-06-01')
+  end
+
   def self.completions
     Completions.new
   end
