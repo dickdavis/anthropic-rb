@@ -6,7 +6,7 @@ The goal of this project is feature parity with Anthropic's Python SDK until an 
 
 ## Usage
 
-anthropic-rb will default to the value of the `ANTHROPIC_API_KEY` environment variable. However, you may initialize the library with your API key:
+anthropic-rb will default to the value of the `ANTHROPIC_API_KEY` environment variable. However, you may initialize the library with your API key. You must set your API key before using the library.
 
 ```ruby
 require 'anthropic-rb'
@@ -16,7 +16,7 @@ Anthropic.setup do |config|
 end
 ```
 
-You can also specify an API version to use by setting the `ANTHROPIC_API_VERSION` environment variable or during initialization:
+You can also specify an API version to use by setting the `ANTHROPIC_API_VERSION` environment variable or during initialization. This is optional; if not set, the library will default to `2023-06-01`.
 
 ```ruby
 require 'anthropic-rb'
@@ -26,7 +26,43 @@ Anthropic.setup do |config|
 end
 ```
 
-The default API version is `2023-06-01`.
+### Messages API
+
+You can send a request to the Messages API. The Messages API is currently in beta; as such, you'll need to pass the `beta` flag when calling the API to ensure the correct header is included.
+
+```ruby
+Anthropic.messages(beta: true).create(model: 'claude-2.1', max_tokens: 200, messages: [{role: 'user', content: 'Yo what up?'}])
+
+# Output =>
+# {
+#   id: "msg_013ePdwEkb4RMC1hCE61Hbm8",
+#   type: "message",
+#   role: "assistant",
+#   content: [{type: "text", text: "Hello! Not much up with me, just chatting. How about you?"}],
+#   model: "claude-2.1",
+#   stop_reason: "end_turn",
+#   stop_sequence: nil
+# }
+```
+
+Alternatively, you can stream the response:
+
+```ruby
+Anthropic.messages(beta: true).create(model: 'claude-2.1', max_tokens: 200, messages: [{role: 'user', content: 'Yo what up?'}], stream: true) do |event|
+  puts event
+end
+
+# Output =>
+# { type: 'message_start', message: { id: 'msg_012pkeozZynwyNvSagwL7kMw', type: 'message', role: 'assistant', content: [], model: 'claude-2.1', stop_reason: nil, stop_sequence: nil } }
+# { type: 'content_block_start', index: 0, content_block: { type: 'text', text: '' } }
+# { type: 'content_block_delta', index: 0, delta: { type: 'text_delta', text: 'Hello' } }
+# { type: 'content_block_delta', index: 0, delta: { type: 'text_delta', text: '.' } }
+# { type: 'content_block_stop', index: 0 }
+# { type: 'message_delta', delta: { stop_reason: 'end_turn', stop_sequence: nil } }
+# { type: 'message_stop' }
+```
+
+### Completions API
 
 To make a request to the Completions API:
 
@@ -55,21 +91,21 @@ Anthropic.completions.create(model: 'claude-2', max_tokens_to_sample: 200, promp
 end
 
 # Output =>
-# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" Hello", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
-# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>"!", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
-# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" Not", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
-# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" much", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
-# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>",", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
-# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" just", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
-# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" chatting", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
-# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" with", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
-# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" people", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
-# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>".", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
-# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" How", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
-# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" about", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
-# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" you", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
-# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>"?", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
-# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>"", :stop_reason=>"stop_sequence", :model=>"claude-2.1", :stop=>"\n\nHuman:", :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
+# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' Hello', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
+# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: '!', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
+# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' Not', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
+# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' much', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
+# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ',', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
+# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' just', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
+# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' chatting', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
+# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' with', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
+# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' people', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
+# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: '.', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
+# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' How', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
+# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' about', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
+# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' you', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
+# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: '?', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
+# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: '', stop_reason: 'stop_sequence', model: 'claude-2.1', stop: "\n\nHuman:", log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
 ```
 
 ## Installation

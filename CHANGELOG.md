@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Added
+
+- Add support for sending headers to client.
+- Add support for beta Messages API.
+
 ## [0.2.5] - 2023-12-27
 
 ### Fixed
