@@ -47,6 +47,31 @@ Anthropic.completions.create(
 # }
 ```
 
+Alternatively, you can stream the response:
+
+```ruby
+Anthropic.completions.create(model: 'claude-2', max_tokens_to_sample: 200, prompt: 'Human: Yo what up?\n\nAssistant:') do |event|
+  puts event
+end
+
+# Output =>
+# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" Hello", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
+# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>"!", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
+# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" Not", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
+# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" much", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
+# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>",", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
+# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" just", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
+# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" chatting", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
+# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" with", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
+# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" people", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
+# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>".", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
+# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" How", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
+# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" about", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
+# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>" you", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
+# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>"?", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
+# {:type=>"completion", :id=>"compl_01G6cEfdZtLEEJVRzwUShiDY", :completion=>"", :stop_reason=>"stop_sequence", :model=>"claude-2.1", :stop=>"\n\nHuman:", :log_id=>"compl_01G6cEfdZtLEEJVRzwUShiDY"}
+```
+
 ## Installation
 
 Add this line to your application's Gemfile:

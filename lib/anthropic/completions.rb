@@ -28,9 +28,11 @@ module Anthropic
       @endpoint = 'https://api.anthropic.com/v1/complete'
     end
 
-    def create(**params)
+    def create(**params, &)
       JSON::Validator.validate!(schema_for_api_version, params)
-      Anthropic::Client.post(endpoint, params)
+      return Anthropic::Client.post(endpoint, params) unless params[:stream]
+
+      Anthropic::Client.post_as_stream(endpoint, params, &)
     rescue JSON::Schema::ValidationError => error
       raise ArgumentError, error.message
     end
