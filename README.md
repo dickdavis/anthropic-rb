@@ -50,7 +50,7 @@ Anthropic.completions.create(
 Alternatively, you can stream the response:
 
 ```ruby
-Anthropic.completions.create(model: 'claude-2', max_tokens_to_sample: 200, prompt: 'Human: Yo what up?\n\nAssistant:') do |event|
+Anthropic.completions.create(model: 'claude-2', max_tokens_to_sample: 200, prompt: 'Human: Yo what up?\n\nAssistant:', stream: true) do |event|
   puts event
 end
 
