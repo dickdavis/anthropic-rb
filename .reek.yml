@@ -5,3 +5,6 @@ detectors:
   TooManyStatements:
     exclude:
       - 'Anthropic::Client#self.post'
+  BooleanParameter:
+    exclude:
+      - 'Anthropic::Messages#initialize'

@@ -6,6 +6,7 @@ require 'json-schema'
 
 require_relative 'anthropic/client'
 require_relative 'anthropic/completions'
+require_relative 'anthropic/messages'
 require_relative 'anthropic/version'
 
 ##
@@ -42,5 +43,9 @@ module Anthropic
 
   def self.completions
     Completions.new
+  end
+
+  def self.messages(...)
+    Messages.new(...)
   end
 end

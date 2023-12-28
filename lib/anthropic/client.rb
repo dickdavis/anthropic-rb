@@ -32,13 +32,13 @@ module Anthropic
   # Provides a client for sending HTTP requests.
   class Client
     # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
-    def self.post(url, data)
+    def self.post(url, data, headers = {})
       response = HTTPX.with(
         headers: {
           'Content-Type' => 'application/json',
           'x-api-key' => Anthropic.api_key,
           'anthropic-version' => Anthropic.api_version
-        }
+        }.merge(headers)
       ).post(url, json: data)
 
       response_body = JSON.parse(response.body, symbolize_names: true)
@@ -65,13 +65,13 @@ module Anthropic
       end
     end
 
-    def self.post_as_stream(url, data)
+    def self.post_as_stream(url, data, headers = {})
       response = HTTPX.plugin(:stream).with(
         headers: {
           'Content-Type' => 'application/json',
           'x-api-key' => Anthropic.api_key,
           'anthropic-version' => Anthropic.api_version
-        }
+        }.merge(headers)
       ).post(url, json: data, stream: true)
 
       response.each_line do |line|
