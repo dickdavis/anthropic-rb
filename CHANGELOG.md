@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.3.0] - 2023-12-28
+
 ### Added
 
 - Add support for sending headers to client.
@@ -45,7 +47,8 @@
 
 - Initial release
 
-[Unreleased]: https://github.com/dickdavis/anthropic-rb/compare/v0.2.5...HEAD
+[Unreleased]: https://github.com/dickdavis/anthropic-rb/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/dickdavis/anthropic-rb/compare/v0.2.5...v0.3.0
 [0.2.5]: https://github.com/dickdavis/anthropic-rb/compare/v0.2.3...v0.2.5
 [0.2.3]: https://github.com/dickdavis/anthropic-rb/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/dickdavis/anthropic-rb/compare/v0.2.1...v0.2.2
