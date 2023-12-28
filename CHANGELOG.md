@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.2.2] - 2023-12-27
+
+### Fixed
+
+- Fix links in CHANGELOG.md
+
 ## [0.2.1] - 2023-12-27
 
 ### Fixed
@@ -21,7 +27,8 @@
 
 - Initial release
 
-[Unreleased]: https://github.com/d3d1rty/event_logger_rails/compare/0.2.1...HEAD
-[0.2.1]: https://github.com/d3d1rty/event_logger_rails/compare/0.2.0...0.2.1
-[0.2.0]: https://github.com/d3d1rty/event_logger_rails/compare/0.1.0...0.2.0
-[0.1.0]: https://github.com/d3d1rty/event_logger_rails/releases/tag/0.1.0
+[Unreleased]: https://github.com/dickdavis/anthropic-rb/compare/0.2.2...HEAD
+[0.2.1]: https://github.com/dickdavis/anthropic-rb/compare/0.2.0...0.2.2
+[0.2.1]: https://github.com/dickdavis/anthropic-rb/compare/0.2.0...0.2.1
+[0.2.0]: https://github.com/dickdavis/anthropic-rb/compare/0.1.0...0.2.0
+[0.1.0]: https://github.com/dickdavis/anthropic-rb/releases/tag/0.1.0
