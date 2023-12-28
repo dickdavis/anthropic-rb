@@ -64,6 +64,45 @@ module Anthropic
         raise Anthropic::InternalServerError, response_body
       end
     end
+
+    def self.post_as_stream(url, data)
+      response = HTTPX.plugin(:stream).with(
+        headers: {
+          'Content-Type' => 'application/json',
+          'x-api-key' => Anthropic.api_key,
+          'anthropic-version' => Anthropic.api_version
+        }
+      ).post(url, json: data, stream: true)
+
+      response.each_line do |line|
+        event, data = line.split(/(\w+\b:\s)/)[1..2]
+        next unless event && data
+
+        if event.start_with?('data')
+          formatted_data = JSON.parse(data, symbolize_names: true)
+          yield formatted_data unless %w[ping error].include?(formatted_data[:type])
+        end
+      end
+    rescue HTTPX::HTTPError => error
+      case error.response.status
+      when 400
+        raise Anthropic::BadRequestError
+      when 401
+        raise Anthropic::AuthenticationError
+      when 403
+        raise Anthropic::PermissionDeniedError
+      when 404
+        raise Anthropic::NotFoundError
+      when 409
+        raise Anthropic::ConflictError
+      when 422
+        raise Anthropic::UnprocessableEntityError
+      when 429
+        raise Anthropic::RateLimitError
+      when 500
+        raise Anthropic::InternalServerError
+      end
+    end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
   end
 end
