@@ -9,7 +9,7 @@ The goal of this project is feature parity with Anthropic's Python SDK until an 
 anthropic-rb will default to the value of the `ANTHROPIC_API_KEY` environment variable. However, you may initialize the library with your API key. You must set your API key before using the library.
 
 ```ruby
-require 'anthropic-rb'
+require 'anthropic'
 
 Anthropic.setup do |config|
   config.api_key = 'YOUR_API_KEY'
@@ -19,7 +19,7 @@ end
 You can also specify an API version to use by setting the `ANTHROPIC_API_VERSION` environment variable or during initialization. This is optional; if not set, the library will default to `2023-06-01`.
 
 ```ruby
-require 'anthropic-rb'
+require 'anthropic'
 
 Anthropic.setup do |config|
   config.api_version = '2023-06-01'
