@@ -7,6 +7,9 @@ module Anthropic
     # Error for when the API version is not supported.
     class UnsupportedApiVersionError < StandardError; end
 
+    # Error for when a beta feature is not used correctly
+    class UnsupportedBetaOptionError < StandardError; end
+
     ENDPOINT = 'https://api.anthropic.com/v1/messages'
     V1_SCHEMA = {
       type: 'object',
@@ -18,6 +21,14 @@ module Anthropic
         system: { type: 'string' },
         stop_sequences: { type: 'array', items: { type: 'string' } },
         temperature: { type: 'number' },
+        tools: {
+          type: 'array',
+          items: {
+            name: { type: 'string' },
+            description: { type: 'string' },
+            input_schema: { type: 'object' }
+          }
+        },
         top_k: { type: 'integer' },
         top_p: { type: 'number' },
         metadata: { type: 'object' },
@@ -31,7 +42,10 @@ module Anthropic
     end
 
     def create(**params, &)
+      raise UnsupportedBetaOptionError, 'Tool use is not yet supported in streaming mode' if params[:stream] && beta
+
       JSON::Validator.validate!(schema_for_api_version, params)
+
       return Anthropic::Client.post(ENDPOINT, params, additional_headers) unless params[:stream]
 
       Anthropic::Client.post_as_stream(ENDPOINT, params, additional_headers, &)
@@ -56,7 +70,7 @@ module Anthropic
     def additional_headers
       return {} unless beta
 
-      { 'anthropic-beta' => 'messages-2023-12-15' }
+      { 'anthropic-beta' => 'tools-2024-04-04' }
     end
   end
 end

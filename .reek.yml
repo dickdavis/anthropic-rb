@@ -8,3 +8,6 @@ detectors:
   BooleanParameter:
     exclude:
       - 'Anthropic::Messages#initialize'
+  DuplicateMethodCall:
+    exclude:
+      - 'Anthropic::Messages#create'
