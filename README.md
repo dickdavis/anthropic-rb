@@ -28,10 +28,10 @@ end
 
 ### Messages API
 
-You can send a request to the Messages API. The Messages API is currently in beta; as such, you'll need to pass the `beta` flag when calling the API to ensure the correct header is included.
+You can send a request to the Messages API.
 
 ```ruby
-Anthropic.messages(beta: true).create(model: 'claude-2.1', max_tokens: 200, messages: [{role: 'user', content: 'Yo what up?'}])
+Anthropic.messages.create(model: 'claude-2.1', max_tokens: 200, messages: [{role: 'user', content: 'Yo what up?'}])
 
 # Output =>
 # {
@@ -48,7 +48,7 @@ Anthropic.messages(beta: true).create(model: 'claude-2.1', max_tokens: 200, mess
 Alternatively, you can stream the response:
 
 ```ruby
-Anthropic.messages(beta: true).create(model: 'claude-2.1', max_tokens: 200, messages: [{role: 'user', content: 'Yo what up?'}], stream: true) do |event|
+Anthropic.messages.create(model: 'claude-2.1', max_tokens: 200, messages: [{role: 'user', content: 'Yo what up?'}], stream: true) do |event|
   puts event
 end
 
@@ -61,6 +61,33 @@ end
 # { type: 'message_delta', delta: { stop_reason: 'end_turn', stop_sequence: nil } }
 # { type: 'message_stop' }
 ```
+
+You can also experiment with the new tools beta by passing the `beta` flag when calling the API. This will ensure each request includes the correct beta header.
+
+```ruby
+tools = [
+  {
+    name: 'get_weather',
+    description: 'Get the current weather in a given location',
+    input_schema: {
+      type: 'object',
+      properties: {
+        location: { type: 'string' }
+      },
+      required: ['location']
+    }
+  }
+]
+
+Anthropic.messages(beta: true).create(
+  model: 'claude-3-opus-20240229',
+  max_tokens: 200,
+  tools:,
+  messages: [{role: 'user', content: 'What is the weather like in Nashville?'}]
+)
+```
+
+Streaming is currently not supported by the tools beta. You can find out more information about tools in the [documentation](https://docs.anthropic.com/claude/docs/tool-use).
 
 ### Completions API
 

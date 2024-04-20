@@ -30,7 +30,22 @@ RSpec.describe Anthropic::Messages do
         call_method
         expect(WebMock)
           .to have_requested(:post, 'https://api.anthropic.com/v1/messages')
-          .with(headers: { 'anthropic-beta' => 'messages-2023-12-15' })
+          .with(headers: { 'anthropic-beta' => 'tools-2024-04-04' })
+      end
+
+      context 'when the request is for streaming' do # rubocop:disable RSpec/NestedGroups
+        let(:params) do
+          {
+            model: 'claude-2.1',
+            messages: [{ role: 'user', content: 'foo' }],
+            max_tokens: 200,
+            stream: true
+          }
+        end
+
+        it 'raises an error' do
+          expect { call_method }.to raise_error(Anthropic::Messages::UnsupportedBetaOptionError)
+        end
       end
     end
 

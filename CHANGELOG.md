@@ -2,6 +2,16 @@
 
 ## [Unreleased]
 
+## [0.4.0] - 2024-04-20
+
+### Added
+
+- Add support for the tools beta.
+
+### Updated
+
+- Remove beta header for Messages API as the API is no longer in beta.
+
 ## [0.3.0] - 2023-12-28
 
 ### Added
@@ -47,7 +57,8 @@
 
 - Initial release
 
-[Unreleased]: https://github.com/dickdavis/anthropic-rb/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/dickdavis/anthropic-rb/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/dickdavis/anthropic-rb/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/dickdavis/anthropic-rb/compare/v0.2.5...v0.3.0
 [0.2.5]: https://github.com/dickdavis/anthropic-rb/compare/v0.2.3...v0.2.5
 [0.2.3]: https://github.com/dickdavis/anthropic-rb/compare/v0.2.2...v0.2.3
