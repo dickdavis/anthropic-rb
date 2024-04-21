@@ -1,0 +1,26 @@
+{
+  "id": "tools-2024-04-04",
+  "name": "Tools",
+  "description": "Equips Claude with custom tools for interacting with clients for a wide variety of tasks.",
+  "documentation": "https://docs.anthropic.com/claude/docs/tool-use",
+  "header" : { "anthropic-beta": "tools-2024-04-04"  },
+  "schema": {
+    "tools": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "input_schema": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

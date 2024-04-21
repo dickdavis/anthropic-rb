@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
-RSpec.describe Anthropic::Messages do
+RSpec.describe Anthropic::Api::Messages do
   subject(:messages_api) { described_class.new }
+
+  before do
+    Anthropic.setup do |config|
+      config.api_key = 'foo'
+    end
+  end
 
   describe '#create' do
     subject(:call_method) { messages_api.create(**params) }
@@ -10,19 +16,32 @@ RSpec.describe Anthropic::Messages do
       let(:params) { { model: 'foo' } }
 
       it 'raises an error' do
-        expect { call_method }.to raise_error(ArgumentError)
+        expect { call_method }.to raise_error(Anthropic::Errors::SchemaValidationError)
       end
     end
 
     context 'with beta option flagged' do
-      subject(:call_method) { described_class.new(beta: true).create(**params) }
+      subject(:call_method) { described_class.new(beta: 'tools-2024-04-04').create(**params) }
 
       let(:params) do
         {
           model: 'claude-2.1',
           messages: [{ role: 'user', content: 'foo' }],
+          tools:,
           max_tokens: 200
         }
+      end
+
+      let(:tools) do
+        [
+          {
+            name: 'foo',
+            description: 'bar',
+            input_schema: {
+              foo: 'bar'
+            }
+          }
+        ]
       end
 
       it 'sends the beta header' do
@@ -44,7 +63,7 @@ RSpec.describe Anthropic::Messages do
         end
 
         it 'raises an error' do
-          expect { call_method }.to raise_error(Anthropic::Messages::UnsupportedBetaOptionError)
+          expect { call_method }.to raise_error(Anthropic::Errors::UnsupportedBetaUseError)
         end
       end
     end
@@ -90,7 +109,7 @@ RSpec.describe Anthropic::Messages do
 
         it 'raises an error if the API version is not supported' do
           allow(Anthropic).to receive(:api_version).and_return('2023-06-02')
-          expect { call_method }.to raise_error(Anthropic::Messages::UnsupportedApiVersionError)
+          expect { call_method }.to raise_error(Anthropic::Errors::UnsupportedApiVersionError)
         end
 
         it 'receives streamed events' do
@@ -122,7 +141,7 @@ RSpec.describe Anthropic::Messages do
 
         it 'raises an error if the API version is not supported' do
           allow(Anthropic).to receive(:api_version).and_return('2023-06-02')
-          expect { call_method }.to raise_error(Anthropic::Messages::UnsupportedApiVersionError)
+          expect { call_method }.to raise_error(Anthropic::Errors::UnsupportedApiVersionError)
         end
 
         it 'returns the response from the API' do

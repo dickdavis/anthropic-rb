@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
-RSpec.describe Anthropic::Completions do
+RSpec.describe Anthropic::Api::Completions do
   subject(:completions_api) { described_class.new }
+
+  before do
+    Anthropic.setup do |config|
+      config.api_key = 'foo'
+    end
+  end
 
   describe '#create' do
     subject(:call_method) { completions_api.create(**params) }
@@ -10,7 +16,7 @@ RSpec.describe Anthropic::Completions do
       let(:params) { { model: 'foo' } }
 
       it 'raises an error' do
-        expect { call_method }.to raise_error(ArgumentError)
+        expect { call_method }.to raise_error(Anthropic::Errors::SchemaValidationError)
       end
     end
 
@@ -32,7 +38,7 @@ RSpec.describe Anthropic::Completions do
 
         it 'raises an error if the API version is not supported' do
           allow(Anthropic).to receive(:api_version).and_return('2023-06-02')
-          expect { call_method }.to raise_error(Anthropic::Completions::UnsupportedApiVersionError)
+          expect { call_method }.to raise_error(Anthropic::Errors::UnsupportedApiVersionError)
         end
 
         it 'receives streamed events' do
@@ -62,7 +68,7 @@ RSpec.describe Anthropic::Completions do
 
         it 'raises an error if the API version is not supported' do
           allow(Anthropic).to receive(:api_version).and_return('2023-06-02')
-          expect { call_method }.to raise_error(Anthropic::Completions::UnsupportedApiVersionError)
+          expect { call_method }.to raise_error(Anthropic::Errors::UnsupportedApiVersionError)
         end
 
         it 'returns the response from the API' do

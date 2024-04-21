@@ -1,0 +1,45 @@
+{
+  "version": "2023-06-01",
+  "endpoint": "/v1/complete",
+  "schema": {
+    "type": "object",
+    "required": [
+      "model",
+      "prompt",
+      "max_tokens_to_sample"
+    ],
+    "properties": {
+      "model": {
+        "type": "string"
+      },
+      "prompt": {
+        "type": "string"
+      },
+      "max_tokens_to_sample": {
+        "type": "integer"
+      },
+      "stop_sequences": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "temperature": {
+        "type": "number"
+      },
+      "top_k": {
+        "type": "integer"
+      },
+      "top_p": {
+        "type": "number"
+      },
+      "metadata": {
+        "type": "object"
+      },
+      "stream": {
+        "type": "boolean"
+      }
+    },
+    "additionalProperties": false
+  }
+}
