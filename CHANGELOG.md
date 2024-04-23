@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- Added link to `anthropic-rb-cookbook`.
+
 ## [0.5.0] - 2024-04-22
 
 ### Updated
