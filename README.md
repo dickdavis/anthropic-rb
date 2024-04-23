@@ -4,6 +4,8 @@ Ruby bindings for the Anthropic API. This library is unofficial and is not affil
 
 The goal of this project is feature parity with Anthropic's Python SDK until an official Ruby SDK is available.
 
+You can find examples of usage in the [anthropic-rb-cookbook](https://github.com/dickdavis/anthropic-rb-cookbook/).
+
 ## Usage
 
 anthropic-rb will default to the value of the `ANTHROPIC_API_KEY` environment variable. However, you may initialize the library with your API key. You must set your API key before using the library.
@@ -160,6 +162,8 @@ gem install anthropic-rb
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`.
+
+To run a sanity check, run `ruby sanity_check.rb`.
 
 To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
