@@ -4,31 +4,6 @@ require 'httpx'
 
 module Anthropic
   ##
-  # Error when the request is malformed.
-  class BadRequestError < StandardError; end
-  ##
-  # Error when the API key is invalid.
-  class AuthenticationError < StandardError; end
-  ##
-  # Error when the account does not have permission for the operation.
-  class PermissionDeniedError < StandardError; end
-  ##
-  # Error when the resource is not found.
-  class NotFoundError < StandardError; end
-  ##
-  # Error when the resource already exists.
-  class ConflictError < StandardError; end
-  ##
-  # Error when the resource cannot be processed.
-  class UnprocessableEntityError < StandardError; end
-  ##
-  # Error when the request exceeds the rate limit.
-  class RateLimitError < StandardError; end
-  ##
-  # Error when the server experienced an internal error.
-  class InternalServerError < StandardError; end
-
-  ##
   # Provides a client for sending HTTP requests.
   class Client
     # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
@@ -47,21 +22,21 @@ module Anthropic
       when 200
         response_body
       when 400
-        raise Anthropic::BadRequestError, response_body
+        raise Anthropic::Errors::BadRequestError, response_body
       when 401
-        raise Anthropic::AuthenticationError, response_body
+        raise Anthropic::Errors::AuthenticationError, response_body
       when 403
-        raise Anthropic::PermissionDeniedError, response_body
+        raise Anthropic::Errors::PermissionDeniedError, response_body
       when 404
-        raise Anthropic::NotFoundError, response_body
+        raise Anthropic::Errors::NotFoundError, response_body
       when 409
-        raise Anthropic::ConflictError, response_body
+        raise Anthropic::Errors::ConflictError, response_body
       when 422
-        raise Anthropic::UnprocessableEntityError, response_body
+        raise Anthropic::Errors::UnprocessableEntityError, response_body
       when 429
-        raise Anthropic::RateLimitError, response_body
+        raise Anthropic::Errors::RateLimitError, response_body
       when 500
-        raise Anthropic::InternalServerError, response_body
+        raise Anthropic::Errors::InternalServerError, response_body
       end
     end
 
@@ -86,21 +61,21 @@ module Anthropic
     rescue HTTPX::HTTPError => error
       case error.response.status
       when 400
-        raise Anthropic::BadRequestError
+        raise Anthropic::Errors::BadRequestError
       when 401
-        raise Anthropic::AuthenticationError
+        raise Anthropic::Errors::AuthenticationError
       when 403
-        raise Anthropic::PermissionDeniedError
+        raise Anthropic::Errors::PermissionDeniedError
       when 404
-        raise Anthropic::NotFoundError
+        raise Anthropic::Errors::NotFoundError
       when 409
-        raise Anthropic::ConflictError
+        raise Anthropic::Errors::ConflictError
       when 422
-        raise Anthropic::UnprocessableEntityError
+        raise Anthropic::Errors::UnprocessableEntityError
       when 429
-        raise Anthropic::RateLimitError
+        raise Anthropic::Errors::RateLimitError
       when 500
-        raise Anthropic::InternalServerError
+        raise Anthropic::Errors::InternalServerError
       end
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity

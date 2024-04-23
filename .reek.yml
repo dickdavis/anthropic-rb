@@ -4,10 +4,22 @@ detectors:
       - Anthropic#self.api_key=
   TooManyStatements:
     exclude:
+      - 'Anthropic::Api::Concerns::Validatable#schema'
+      - 'Anthropic::BaseApi#beta_config'
+      - 'Anthropic::BaseApi#version_config'
+      - 'Anthropic::Bootstrapper#self.load_betas'
+      - 'Anthropic::Bootstrapper#self.load_versions'
       - 'Anthropic::Client#self.post'
   BooleanParameter:
     exclude:
       - 'Anthropic::Messages#initialize'
   DuplicateMethodCall:
     exclude:
+      - 'Anthropic::BaseApi#version_config'
       - 'Anthropic::Messages#create'
+  InstanceVariableAssumption:
+    exclude:
+      - 'Anthropic::BaseApi'
+  NestedIterators:
+    exclude:
+      - 'Anthropic::Bootstrapper#self.load_versions'

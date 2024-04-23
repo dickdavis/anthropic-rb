@@ -62,7 +62,7 @@ end
 # { type: 'message_stop' }
 ```
 
-You can also experiment with the new tools beta by passing the `beta` flag when calling the API. This will ensure each request includes the correct beta header.
+You can also experiment with the new tools beta by passing the `beta` name when calling the API. This will ensure each request includes the correct beta header and validate properly.
 
 ```ruby
 tools = [
@@ -79,7 +79,7 @@ tools = [
   }
 ]
 
-Anthropic.messages(beta: true).create(
+Anthropic.messages(beta: 'tools-2024-04-04').create(
   model: 'claude-3-opus-20240229',
   max_tokens: 200,
   tools:,

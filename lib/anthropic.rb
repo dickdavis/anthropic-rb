@@ -4,24 +4,20 @@ require 'httpx'
 require 'json'
 require 'json-schema'
 
-require_relative 'anthropic/client'
-require_relative 'anthropic/completions'
-require_relative 'anthropic/messages'
-require_relative 'anthropic/version'
+Dir[File.join(__dir__, 'anthropic/', '**', '*.rb')].each { |file| require_relative file }
 
 ##
 # Namespace for anthropic-rb gem
 module Anthropic
-  ##
-  # Default error class
-  class Error < StandardError; end
-
   def self.setup
     yield self
+    @betas = Bootstrapper.load_betas
+    @versions = Bootstrapper.load_versions
   end
 
   def self.reset
     @api_key = nil
+    @api_host = nil
     @api_version = nil
   end
 
@@ -33,6 +29,14 @@ module Anthropic
     @api_key = api_key
   end
 
+  def self.api_host
+    @api_host || ENV.fetch('ANTHROPIC_API_HOST', 'https://api.anthropic.com')
+  end
+
+  def self.api_host=(api_host = nil)
+    @api_host = api_host
+  end
+
   def self.api_version
     @api_version || ENV.fetch('ANTHROPIC_API_VERSION', '2023-06-01')
   end
@@ -41,11 +45,19 @@ module Anthropic
     @api_version = api_version
   end
 
+  def self.betas
+    @betas
+  end
+
+  def self.versions
+    @versions
+  end
+
   def self.completions
-    Completions.new
+    Anthropic::Api::Completions.new
   end
 
   def self.messages(...)
-    Messages.new(...)
+    Anthropic::Api::Messages.new(...)
   end
 end

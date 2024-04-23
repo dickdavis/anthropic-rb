@@ -2,6 +2,7 @@
 
 require 'webmock/rspec'
 require 'httpx/adapters/webmock'
+require 'debug'
 
 Dir[File.expand_path('../lib/**/*.rb', __dir__)].each { |f| require f }
 
