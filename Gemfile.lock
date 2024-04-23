@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    anthropic-rb (0.4.0)
+    anthropic-rb (0.5.0)
       httpx (>= 1.1.5)
       json-schema (>= 4.1.1)
 

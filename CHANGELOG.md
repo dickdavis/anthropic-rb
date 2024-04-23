@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+## [0.5.0] - 2024-04-22
+
+### Updated
+
+- Refactored project for maintainability.
+
+### Breaking Changes
+- You must now pass the beta ID when enabling a beta feature. The only current beta is for Tools (id: tools-2024-04-04). Previously, you would pass `true` to enable the beta.
+
 ## [0.4.0] - 2024-04-20
 
 ### Added
@@ -57,7 +66,8 @@
 
 - Initial release
 
-[Unreleased]: https://github.com/dickdavis/anthropic-rb/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/dickdavis/anthropic-rb/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/dickdavis/anthropic-rb/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/dickdavis/anthropic-rb/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/dickdavis/anthropic-rb/compare/v0.2.5...v0.3.0
 [0.2.5]: https://github.com/dickdavis/anthropic-rb/compare/v0.2.3...v0.2.5
