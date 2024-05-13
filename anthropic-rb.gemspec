@@ -36,7 +36,8 @@ Gem::Specification.new do |spec|
   # guide at: https://bundler.io/guides/creating_gem.html
   spec.metadata['rubygems_mfa_required'] = 'true'
 
-  spec.required_ruby_version = '>= 3.1'
+  spec.required_ruby_version = '>= 3.3.1'
+  spec.add_dependency 'aasm', '>= 5.5.0'
   spec.add_dependency 'httpx', '>= 1.1.5'
   spec.add_dependency 'json-schema', '>= 4.1.1'
 end
