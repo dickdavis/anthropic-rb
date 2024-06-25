@@ -5,6 +5,7 @@ require 'httpx/adapters/webmock'
 require 'debug'
 
 Dir[File.expand_path('../lib/**/*.rb', __dir__)].each { |f| require f }
+Dir[File.expand_path('spec/support/**/*.rb')].each { |file| require file }
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

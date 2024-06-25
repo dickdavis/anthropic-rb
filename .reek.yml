@@ -9,7 +9,8 @@ detectors:
       - 'Anthropic::BaseApi#version_config'
       - 'Anthropic::Bootstrapper#self.load_betas'
       - 'Anthropic::Bootstrapper#self.load_versions'
-      - 'Anthropic::Client#self.post'
+      - 'Anthropic::Client::Standard#self.post'
+      - 'Anthropic::Client::Streaming#self.post'
   BooleanParameter:
     exclude:
       - 'Anthropic::Messages#initialize'
