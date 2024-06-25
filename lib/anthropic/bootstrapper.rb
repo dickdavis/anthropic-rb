@@ -7,9 +7,7 @@ module Anthropic
   # Provides methods for bootstrapping the Anthropic gem
   module Bootstrapper
     def self.load_betas
-      current_dir = File.dirname(__FILE__)
-      directory_path = File.join(current_dir, 'betas')
-
+      directory_path = File.expand_path('../../schemas/betas', __dir__)
       raise "Directory not found: #{directory_path}" unless Dir.exist?(directory_path)
 
       file_paths = Dir.glob(File.join(directory_path, '*.json'))
@@ -21,9 +19,7 @@ module Anthropic
 
     # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     def self.load_versions
-      current_dir = File.dirname(__FILE__)
-      directory_path = File.join(current_dir, 'versions')
-
+      directory_path = File.expand_path('../../schemas/versions', __dir__)
       raise "Directory not found: #{directory_path}" unless Dir.exist?(directory_path)
 
       versions = {}
