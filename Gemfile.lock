@@ -58,11 +58,11 @@ GEM
       kramdown (~> 2.0)
     kwalify (0.7.2)
     language_server-protocol (3.17.0.3)
+    mini_portile2 (2.8.6)
     minitest (5.20.0)
     mutex_m (0.2.0)
-    nokogiri (1.15.5-arm64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.15.5-x86_64-linux)
+    nokogiri (1.15.5)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     overcommit (0.60.0)
       childprocess (>= 0.6.3, < 5)
@@ -165,6 +165,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-22
+  arm64-darwin-23
   x86_64-linux
 
 DEPENDENCIES
