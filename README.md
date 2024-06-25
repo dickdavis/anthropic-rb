@@ -36,32 +36,58 @@ You can send a request to the Messages API.
 Anthropic.messages.create(model: 'claude-2.1', max_tokens: 200, messages: [{role: 'user', content: 'Yo what up?'}])
 
 # Output =>
-# {
-#   id: "msg_013ePdwEkb4RMC1hCE61Hbm8",
-#   type: "message",
-#   role: "assistant",
-#   content: [{type: "text", text: "Hello! Not much up with me, just chatting. How about you?"}],
-#   model: "claude-2.1",
-#   stop_reason: "end_turn",
-#   stop_sequence: nil
-# }
+#<data Anthropic::Client::Response status="success", body={:id=>"msg_01UqHiw6oFLjMYiLV8hkXsrR", :type=>"message", :role=>"assistant", :model=>"claude-2.1", :content=>[{:type=>"text", :text=>"Hello! Not much up with me, just chatting with you. How's it going?"}], :stop_reason=>"end_turn", :stop_sequence=>nil, :usage=>{:input_tokens=>13, :output_tokens=>22}}>
 ```
 
 Alternatively, you can stream the response:
 
 ```ruby
-Anthropic.messages.create(model: 'claude-2.1', max_tokens: 200, messages: [{role: 'user', content: 'Yo what up?'}], stream: true) do |event|
+options = {
+  model: 'claude-2.1',
+  max_tokens: 200,
+  messages: [{role: 'user', content: 'Yo what up?'}],
+  stream: true
+}
+
+Anthropic.messages.create(**options) do |event|
   puts event
 end
 
 # Output =>
-# { type: 'message_start', message: { id: 'msg_012pkeozZynwyNvSagwL7kMw', type: 'message', role: 'assistant', content: [], model: 'claude-2.1', stop_reason: nil, stop_sequence: nil } }
-# { type: 'content_block_start', index: 0, content_block: { type: 'text', text: '' } }
-# { type: 'content_block_delta', index: 0, delta: { type: 'text_delta', text: 'Hello' } }
-# { type: 'content_block_delta', index: 0, delta: { type: 'text_delta', text: '.' } }
-# { type: 'content_block_stop', index: 0 }
-# { type: 'message_delta', delta: { stop_reason: 'end_turn', stop_sequence: nil } }
-# { type: 'message_stop' }
+#<data Anthropic::Client::Response status="success", body={:type=>"message_start", :message=>{:id=>"msg_01EsYcQkBJrHrtgpY5ZcLzvf", :type=>"message", :role=>"assistant", :model=>"claude-2.1", :content=>[], :stop_reason=>nil, :stop_sequence=>nil, :usage=>{:input_tokens=>13, :output_tokens=>1}}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_start", :index=>0, :content_block=>{:type=>"text", :text=>""}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>"Hello"}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>"!"}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>" Not"}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>" much"}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>" up"}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>" with"}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>" me"}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>","}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>" I"}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>"'m"}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>" an"}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>" AI"}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>" assistant"}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>" create"}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>"d by"}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>" An"}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>"throp"}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>"ic"}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_delta", :index=>0, :delta=>{:type=>"text_delta", :text=>"."}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"content_block_stop", :index=>0}>
+#<data Anthropic::Client::Response status="success", body={:type=>"message_delta", :delta=>{:stop_reason=>"end_turn", :stop_sequence=>nil}, :usage=>{:output_tokens=>23}}>
+#<data Anthropic::Client::Response status="success", body={:type=>"message_stop"}>
+
+# Or, if you just want to print the text content:
+Anthropic.messages.create(**options) do |event|
+  next unless event.body[:type] == 'content_block_delta'
+
+  print event.body[:delta][:text]
+end
+
+# Output =>
+# Hello! Not much up with me, I'm an AI assistant created by Anthropic.
 ```
 
 You can also experiment with the new tools beta by passing the `beta` name when calling the API. This will ensure each request includes the correct beta header and validate properly.
@@ -103,38 +129,41 @@ Anthropic.completions.create(
 )
 
 # Output =>
-# {
-#   completion: "Hello! Not much going on with me, just chatting. How about you?",
-#   stop_reason: "stop_sequence",
-#   model: "claude-2.1",
-#   stop: "\n\nHuman:",
-#   log_id: "2496914137c520ec2b4ae8315864bcf3a4c6ce9f2e3c96e13be4c004587313ca"
-# }
+#<data Anthropic::Client::Response status="success", body={:type=>"completion", :id=>"compl_01Y9ptPR7xGHaH9rC3ffJExU", :completion=>" Hello! Not much going on here. How about you?", :stop_reason=>"stop_sequence", :model=>"claude-2.1", :stop=>"\n\nHuman:", :log_id=>"compl_01Y9ptPR7xGHaH9rC3ffJExU"}>
 ```
 
 Alternatively, you can stream the response:
 
 ```ruby
-Anthropic.completions.create(model: 'claude-2', max_tokens_to_sample: 200, prompt: 'Human: Yo what up?\n\nAssistant:', stream: true) do |event|
+options = {
+  model: 'claude-2',
+  max_tokens_to_sample: 200,
+  prompt: 'Human: Yo what up?\n\nAssistant:',
+  stream: true
+}
+
+Anthropic.completions.create(**options) do |event|
   puts event
 end
 
 # Output =>
-# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' Hello', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
-# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: '!', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
-# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' Not', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
-# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' much', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
-# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ',', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
-# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' just', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
-# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' chatting', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
-# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' with', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
-# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' people', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
-# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: '.', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
-# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' How', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
-# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' about', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
-# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: ' you', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
-# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: '?', stop_reason: nil, model: 'claude-2.1', stop: nil, log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
-# { type: 'completion', id: 'compl_01G6cEfdZtLEEJVRzwUShiDY', completion: '', stop_reason: 'stop_sequence', model: 'claude-2.1', stop: "\n\nHuman:", log_id: 'compl_01G6cEfdZtLEEJVRzwUShiDY' }
+#<data Anthropic::Client::Response status="success", body={:type=>"completion", :id=>"compl_015AktggW7tcM4w11YpkuMbP", :completion=>" Hello", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_015AktggW7tcM4w11YpkuMbP"}>
+#<data Anthropic::Client::Response status="success", body={:type=>"completion", :id=>"compl_015AktggW7tcM4w11YpkuMbP", :completion=>"!", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_015AktggW7tcM4w11YpkuMbP"}>
+#<data Anthropic::Client::Response status="success", body={:type=>"completion", :id=>"compl_015AktggW7tcM4w11YpkuMbP", :completion=>" Not", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_015AktggW7tcM4w11YpkuMbP"}>
+#<data Anthropic::Client::Response status="success", body={:type=>"completion", :id=>"compl_015AktggW7tcM4w11YpkuMbP", :completion=>" much", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_015AktggW7tcM4w11YpkuMbP"}>
+#<data Anthropic::Client::Response status="success", body={:type=>"completion", :id=>"compl_015AktggW7tcM4w11YpkuMbP", :completion=>" going", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_015AktggW7tcM4w11YpkuMbP"}>
+#<data Anthropic::Client::Response status="success", body={:type=>"completion", :id=>"compl_015AktggW7tcM4w11YpkuMbP", :completion=>" on", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_015AktggW7tcM4w11YpkuMbP"}>
+#<data Anthropic::Client::Response status="success", body={:type=>"completion", :id=>"compl_015AktggW7tcM4w11YpkuMbP", :completion=>" here", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_015AktggW7tcM4w11YpkuMbP"}>
+#<data Anthropic::Client::Response status="success", body={:type=>"completion", :id=>"compl_015AktggW7tcM4w11YpkuMbP", :completion=>".", :stop_reason=>nil, :model=>"claude-2.1", :stop=>nil, :log_id=>"compl_015AktggW7tcM4w11YpkuMbP"}>
+#<data Anthropic::Client::Response status="success", body={:type=>"completion", :id=>"compl_015AktggW7tcM4w11YpkuMbP", :completion=>"", :stop_reason=>"stop_sequence", :model=>"claude-2.1", :stop=>"\n\nHuman:", :log_id=>"compl_015AktggW7tcM4w11YpkuMbP"}>
+
+# Or, if you just want to print the text content:
+Anthropic.completions.create(**options) do |event|
+  print event.body[:completion]
+end
+
+# Output =>
+# Hello! Not much, just chatting with you. How's it going?
 ```
 
 ## Installation
