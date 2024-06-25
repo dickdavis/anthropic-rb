@@ -16,9 +16,9 @@ RSpec.describe Anthropic::Client do
     end
 
     context 'with 400 response' do
-      it 'raises an Anthropic::BadRequestError' do
+      it 'raises an Anthropic::InvalidRequestError' do
         stub_http_request(:post, url).and_return(status: 400, body: JSON.generate(body))
-        expect { send_request }.to raise_error(Anthropic::Errors::BadRequestError)
+        expect { send_request }.to raise_error(Anthropic::Errors::InvalidRequestError)
       end
     end
 
@@ -30,9 +30,9 @@ RSpec.describe Anthropic::Client do
     end
 
     context 'with 403 response' do
-      it 'raises an Anthropic::PermissionDeniedError' do
+      it 'raises an Anthropic::PermissionError' do
         stub_http_request(:post, url).and_return(status: 403, body: JSON.generate(body))
-        expect { send_request }.to raise_error(Anthropic::Errors::PermissionDeniedError)
+        expect { send_request }.to raise_error(Anthropic::Errors::PermissionError)
       end
     end
 
@@ -65,9 +65,16 @@ RSpec.describe Anthropic::Client do
     end
 
     context 'with 500 response' do
-      it 'raises an Anthropic::InternalServerError' do
+      it 'raises an Anthropic::ApiError' do
         stub_http_request(:post, url).and_return(status: 500, body: JSON.generate(body))
-        expect { send_request }.to raise_error(Anthropic::Errors::InternalServerError)
+        expect { send_request }.to raise_error(Anthropic::Errors::ApiError)
+      end
+    end
+
+    context 'with 529 response' do
+      it 'raises an Anthropic::OverloadedError' do
+        stub_http_request(:post, url).and_return(status: 529, body: JSON.generate(body))
+        expect { send_request }.to raise_error(Anthropic::Errors::OverloadedError)
       end
     end
   end
@@ -119,9 +126,9 @@ RSpec.describe Anthropic::Client do
     end
 
     context 'with 400 response' do
-      it 'raises an Anthropic::BadRequestError' do
+      it 'raises an Anthropic::InvalidRequestError' do
         stub_http_request(:post, url).and_return(status: 400, body:)
-        expect { send_request }.to raise_error(Anthropic::Errors::BadRequestError)
+        expect { send_request }.to raise_error(Anthropic::Errors::InvalidRequestError)
       end
     end
 
@@ -133,9 +140,9 @@ RSpec.describe Anthropic::Client do
     end
 
     context 'with 403 response' do
-      it 'raises an Anthropic::PermissionDeniedError' do
+      it 'raises an Anthropic::PermissionError' do
         stub_http_request(:post, url).and_return(status: 403, body:)
-        expect { send_request }.to raise_error(Anthropic::Errors::PermissionDeniedError)
+        expect { send_request }.to raise_error(Anthropic::Errors::PermissionError)
       end
     end
 
@@ -168,9 +175,16 @@ RSpec.describe Anthropic::Client do
     end
 
     context 'with 500 response' do
-      it 'raises an Anthropic::InternalServerError' do
+      it 'raises an Anthropic::ApiError' do
         stub_http_request(:post, url).and_return(status: 500, body:)
-        expect { send_request }.to raise_error(Anthropic::Errors::InternalServerError)
+        expect { send_request }.to raise_error(Anthropic::Errors::ApiError)
+      end
+    end
+
+    context 'with 529 response' do
+      it 'raises an Anthropic::OverloadedError' do
+        stub_http_request(:post, url).and_return(status: 529, body:)
+        expect { send_request }.to raise_error(Anthropic::Errors::OverloadedError)
       end
     end
   end

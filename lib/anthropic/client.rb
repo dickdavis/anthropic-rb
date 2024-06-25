@@ -22,11 +22,11 @@ module Anthropic
       when 200
         response_body
       when 400
-        raise Anthropic::Errors::BadRequestError, response_body
+        raise Anthropic::Errors::InvalidRequestError, response_body
       when 401
         raise Anthropic::Errors::AuthenticationError, response_body
       when 403
-        raise Anthropic::Errors::PermissionDeniedError, response_body
+        raise Anthropic::Errors::PermissionError, response_body
       when 404
         raise Anthropic::Errors::NotFoundError, response_body
       when 409
@@ -36,10 +36,13 @@ module Anthropic
       when 429
         raise Anthropic::Errors::RateLimitError, response_body
       when 500
-        raise Anthropic::Errors::InternalServerError, response_body
+        raise Anthropic::Errors::ApiError, response_body
+      when 529
+        raise Anthropic::Errors::OverloadedError, response_body
       end
     end
 
+    # rubocop:disable Metrics/PerceivedComplexity
     def self.post_as_stream(url, data, headers = {})
       response = HTTPX.plugin(:stream).with(
         headers: {
@@ -61,11 +64,11 @@ module Anthropic
     rescue HTTPX::HTTPError => error
       case error.response.status
       when 400
-        raise Anthropic::Errors::BadRequestError
+        raise Anthropic::Errors::InvalidRequestError
       when 401
         raise Anthropic::Errors::AuthenticationError
       when 403
-        raise Anthropic::Errors::PermissionDeniedError
+        raise Anthropic::Errors::PermissionError
       when 404
         raise Anthropic::Errors::NotFoundError
       when 409
@@ -75,9 +78,11 @@ module Anthropic
       when 429
         raise Anthropic::Errors::RateLimitError
       when 500
-        raise Anthropic::Errors::InternalServerError
+        raise Anthropic::Errors::ApiError
+      when 529
+        raise Anthropic::Errors::OverloadedError
       end
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   end
 end
