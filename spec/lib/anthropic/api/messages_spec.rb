@@ -92,6 +92,7 @@ RSpec.describe Anthropic::Api::Messages do
             'data: {"type":"message_stop"}'
           ].join("\r\n")
         end
+
         let(:events) { [] }
         let(:expected_events) do
           [
@@ -107,15 +108,16 @@ RSpec.describe Anthropic::Api::Messages do
           ]
         end
 
-        it 'raises an error if the API version is not supported' do
-          allow(Anthropic).to receive(:api_version).and_return('2023-06-02')
-          expect { call_method }.to raise_error(Anthropic::Errors::UnsupportedApiVersionError)
+        before do
+          stub_http_request(:post, 'https://api.anthropic.com/v1/messages').to_return(status: 200, body:)
         end
 
         it 'receives streamed events' do
-          stub_http_request(:post, 'https://api.anthropic.com/v1/messages').to_return(status: 200, body:)
           call_method
-          expect(events).to eq(expected_events)
+          aggregate_failures do
+            expect(events.map(&:status).uniq).to eq(['success'])
+            expect(events.map(&:body)).to eq(expected_events)
+          end
         end
       end
 
@@ -139,17 +141,26 @@ RSpec.describe Anthropic::Api::Messages do
           }
         end
 
-        it 'raises an error if the API version is not supported' do
-          allow(Anthropic).to receive(:api_version).and_return('2023-06-02')
-          expect { call_method }.to raise_error(Anthropic::Errors::UnsupportedApiVersionError)
-        end
-
-        it 'returns the response from the API' do
+        before do
           stub_http_request(:post, 'https://api.anthropic.com/v1/messages').and_return(
             status: 200,
             body: JSON.generate(response_body)
           )
-          expect(call_method).to eq(response_body)
+        end
+
+        it 'returns the response from the API' do
+          response = call_method
+          aggregate_failures do
+            expect(response.status).to eq('success')
+            expect(response.body).to eq(response_body)
+          end
+        end
+
+        context 'with invalid API version configured' do
+          it 'raises an error' do
+            allow(Anthropic).to receive(:api_version).and_return('2023-06-02')
+            expect { call_method }.to raise_error(Anthropic::Errors::UnsupportedApiVersionError)
+          end
         end
       end
       # rubocop:enable RSpec/NestedGroups

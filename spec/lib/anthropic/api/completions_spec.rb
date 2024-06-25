@@ -36,15 +36,16 @@ RSpec.describe Anthropic::Api::Completions do
         let(:body) { 'data: {"bar":"foo"}' }
         let(:events) { [] }
 
-        it 'raises an error if the API version is not supported' do
-          allow(Anthropic).to receive(:api_version).and_return('2023-06-02')
-          expect { call_method }.to raise_error(Anthropic::Errors::UnsupportedApiVersionError)
+        before do
+          stub_http_request(:post, 'https://api.anthropic.com/v1/complete').to_return(status: 200, body:)
         end
 
         it 'receives streamed events' do
-          stub_http_request(:post, 'https://api.anthropic.com/v1/complete').to_return(status: 200, body:)
           call_method
-          expect(events).to eq([{ bar: 'foo' }])
+          aggregate_failures do
+            expect(events.map(&:status).uniq).to eq(%w[success])
+            expect(events.map(&:body)).to eq([{ bar: 'foo' }])
+          end
         end
       end
 
@@ -66,17 +67,19 @@ RSpec.describe Anthropic::Api::Completions do
           }
         end
 
-        it 'raises an error if the API version is not supported' do
-          allow(Anthropic).to receive(:api_version).and_return('2023-06-02')
-          expect { call_method }.to raise_error(Anthropic::Errors::UnsupportedApiVersionError)
-        end
-
-        it 'returns the response from the API' do
+        before do
           stub_http_request(:post, 'https://api.anthropic.com/v1/complete').and_return(
             status: 200,
             body: JSON.generate(response_body)
           )
-          expect(call_method).to eq(response_body)
+        end
+
+        it 'returns the response from the API' do
+          response = call_method
+          aggregate_failures do
+            expect(response.status).to eq('success')
+            expect(response.body).to eq(response_body)
+          end
         end
       end
       # rubocop:enable RSpec/NestedGroups
