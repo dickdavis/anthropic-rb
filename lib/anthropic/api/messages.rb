@@ -6,13 +6,8 @@ module Anthropic
     # Provides bindings for the Anthropic messages API
     class Messages < Base
       def create(**params, &)
-        streaming = params[:stream]
-        if streaming && beta_loaded?('tools-2024-04-04')
-          raise Anthropic::Api::UnsupportedBetaUseError, 'Tool use is not yet supported in streaming mode'
-        end
-
         validate!(params)
-        return post(params) unless streaming
+        return post(params) unless params[:stream]
 
         post_as_stream(params, &)
       end

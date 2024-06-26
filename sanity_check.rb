@@ -21,7 +21,7 @@ Anthropic.messages.create(
   stream: true
 ) { |event| puts event }
 
-puts "\nTesting tools beta"
+puts "\nTesting tools"
 tools = [
   {
     name: 'get_weather',
