@@ -7,11 +7,11 @@ module Anthropic
       # Provides helpers for sending API requests
       module Requestable
         def post(params)
-          Anthropic::Client.post(uri, params, additional_headers)
+          Anthropic::Client::Standard.post(uri, params, additional_headers)
         end
 
         def post_as_stream(params, &)
-          Anthropic::Client.post_as_stream(uri, params, additional_headers, &)
+          Anthropic::Client::Streaming.post(uri, params, additional_headers, &)
         end
 
         def uri
