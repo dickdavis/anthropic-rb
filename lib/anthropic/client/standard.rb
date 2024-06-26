@@ -21,23 +21,23 @@ module Anthropic
         when 200
           response_data
         when 400
-          raise Anthropic::Errors::InvalidRequestError, response_data
+          raise Anthropic::Client::InvalidRequestError, response_data
         when 401
-          raise Anthropic::Errors::AuthenticationError, response_data
+          raise Anthropic::Client::AuthenticationError, response_data
         when 403
-          raise Anthropic::Errors::PermissionError, response_data
+          raise Anthropic::Client::PermissionError, response_data
         when 404
-          raise Anthropic::Errors::NotFoundError, response_data
+          raise Anthropic::Client::NotFoundError, response_data
         when 409
-          raise Anthropic::Errors::ConflictError, response_data
+          raise Anthropic::Client::ConflictError, response_data
         when 422
-          raise Anthropic::Errors::UnprocessableEntityError, response_data
+          raise Anthropic::Client::UnprocessableEntityError, response_data
         when 429
-          raise Anthropic::Errors::RateLimitError, response_data
+          raise Anthropic::Client::RateLimitError, response_data
         when 500
-          raise Anthropic::Errors::ApiError, response_data
+          raise Anthropic::Client::ApiError, response_data
         when 529
-          raise Anthropic::Errors::OverloadedError, response_data
+          raise Anthropic::Client::OverloadedError, response_data
         end
       end
       # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity
