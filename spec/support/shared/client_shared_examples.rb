@@ -12,9 +12,9 @@ RSpec.shared_examples 'handles errors from the API' do
       }
     end
 
-    it 'raises an Anthropic::Errors::InvalidRequestError' do
+    it 'raises an Anthropic::Client::InvalidRequestError' do
       stub_http_request(:post, url).and_return(status: 400, body:)
-      expect { send_request }.to raise_error(Anthropic::Errors::InvalidRequestError)
+      expect { send_request }.to raise_error(Anthropic::Client::InvalidRequestError)
     end
   end
 
@@ -29,9 +29,9 @@ RSpec.shared_examples 'handles errors from the API' do
       }
     end
 
-    it 'raises an Anthropic::Errors::AuthenticationError' do
+    it 'raises an Anthropic::Client::AuthenticationError' do
       stub_http_request(:post, url).and_return(status: 401, body:)
-      expect { send_request }.to raise_error(Anthropic::Errors::AuthenticationError)
+      expect { send_request }.to raise_error(Anthropic::Client::AuthenticationError)
     end
   end
 
@@ -46,9 +46,9 @@ RSpec.shared_examples 'handles errors from the API' do
       }
     end
 
-    it 'raises an Anthropic::Errors::PermissionError' do
+    it 'raises an Anthropic::Client::PermissionError' do
       stub_http_request(:post, url).and_return(status: 403, body:)
-      expect { send_request }.to raise_error(Anthropic::Errors::PermissionError)
+      expect { send_request }.to raise_error(Anthropic::Client::PermissionError)
     end
   end
 
@@ -63,9 +63,9 @@ RSpec.shared_examples 'handles errors from the API' do
       }
     end
 
-    it 'raises an Anthropic::Errors::NotFoundError' do
+    it 'raises an Anthropic::Client::NotFoundError' do
       stub_http_request(:post, url).and_return(status: 404, body:)
-      expect { send_request }.to raise_error(Anthropic::Errors::NotFoundError)
+      expect { send_request }.to raise_error(Anthropic::Client::NotFoundError)
     end
   end
 
@@ -80,9 +80,9 @@ RSpec.shared_examples 'handles errors from the API' do
       }
     end
 
-    it 'raises an Anthropic::Errors::ConflictError' do
+    it 'raises an Anthropic::Client::ConflictError' do
       stub_http_request(:post, url).and_return(status: 409, body:)
-      expect { send_request }.to raise_error(Anthropic::Errors::ConflictError)
+      expect { send_request }.to raise_error(Anthropic::Client::ConflictError)
     end
   end
 
@@ -97,9 +97,9 @@ RSpec.shared_examples 'handles errors from the API' do
       }
     end
 
-    it 'raises an Anthropic::Errors::UnprocessableEntityError' do
+    it 'raises an Anthropic::Client::UnprocessableEntityError' do
       stub_http_request(:post, url).and_return(status: 422, body:)
-      expect { send_request }.to raise_error(Anthropic::Errors::UnprocessableEntityError)
+      expect { send_request }.to raise_error(Anthropic::Client::UnprocessableEntityError)
     end
   end
 
@@ -114,9 +114,9 @@ RSpec.shared_examples 'handles errors from the API' do
       }
     end
 
-    it 'raises an Anthropic::Errors::RateLimitError' do
+    it 'raises an Anthropic::Client::RateLimitError' do
       stub_http_request(:post, url).and_return(status: 429, body:)
-      expect { send_request }.to raise_error(Anthropic::Errors::RateLimitError)
+      expect { send_request }.to raise_error(Anthropic::Client::RateLimitError)
     end
   end
 
@@ -131,9 +131,9 @@ RSpec.shared_examples 'handles errors from the API' do
       }
     end
 
-    it 'raises an Anthropic::Errors::ApiError' do
+    it 'raises an Anthropic::Client::ApiError' do
       stub_http_request(:post, url).and_return(status: 500, body:)
-      expect { send_request }.to raise_error(Anthropic::Errors::ApiError)
+      expect { send_request }.to raise_error(Anthropic::Client::ApiError)
     end
   end
 
@@ -148,9 +148,9 @@ RSpec.shared_examples 'handles errors from the API' do
       }
     end
 
-    it 'raises an Anthropic::Errors::OverloadedError' do
+    it 'raises an Anthropic::Client::OverloadedError' do
       stub_http_request(:post, url).and_return(status: 529, body:)
-      expect { send_request }.to raise_error(Anthropic::Errors::OverloadedError)
+      expect { send_request }.to raise_error(Anthropic::Client::OverloadedError)
     end
   end
 end

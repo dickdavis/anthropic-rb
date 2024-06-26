@@ -25,23 +25,23 @@ module Anthropic
       rescue HTTPX::HTTPError => error
         case error.response.status
         when 400
-          raise Anthropic::Errors::InvalidRequestError
+          raise Anthropic::Client::InvalidRequestError
         when 401
-          raise Anthropic::Errors::AuthenticationError
+          raise Anthropic::Client::AuthenticationError
         when 403
-          raise Anthropic::Errors::PermissionError
+          raise Anthropic::Client::PermissionError
         when 404
-          raise Anthropic::Errors::NotFoundError
+          raise Anthropic::Client::NotFoundError
         when 409
-          raise Anthropic::Errors::ConflictError
+          raise Anthropic::Client::ConflictError
         when 422
-          raise Anthropic::Errors::UnprocessableEntityError
+          raise Anthropic::Client::UnprocessableEntityError
         when 429
-          raise Anthropic::Errors::RateLimitError
+          raise Anthropic::Client::RateLimitError
         when 500
-          raise Anthropic::Errors::ApiError
+          raise Anthropic::Client::ApiError
         when 529
-          raise Anthropic::Errors::OverloadedError
+          raise Anthropic::Client::OverloadedError
         end
       end
       # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
