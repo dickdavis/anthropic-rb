@@ -4,7 +4,7 @@ module Anthropic
   module Api
     ##
     # Provides bindings for the Anthropic completions API
-    class Completions < BaseApi
+    class Completions < Base
       def create(**params, &)
         validate!(params)
         return post(params) unless params[:stream]

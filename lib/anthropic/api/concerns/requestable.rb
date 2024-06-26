@@ -26,7 +26,7 @@ module Anthropic
           return {} unless beta
 
           header = beta_config['header']
-          raise Anthropic::Errors::InvalidBetaConfigurationError, "Missing header: #{beta}" unless header
+          raise Anthropic::Api::InvalidBetaConfigurationError, "Missing header: #{beta}" unless header
 
           header
         end

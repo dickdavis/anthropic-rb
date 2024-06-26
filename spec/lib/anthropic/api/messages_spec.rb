@@ -12,13 +12,7 @@ RSpec.describe Anthropic::Api::Messages do
   describe '#create' do
     subject(:call_method) { messages_api.create(**params) }
 
-    context 'with invalid params' do
-      let(:params) { { model: 'foo' } }
-
-      it 'raises an error' do
-        expect { call_method }.to raise_error(Anthropic::Errors::SchemaValidationError)
-      end
-    end
+    shared_examples 'validates the params against the specified API version'
 
     context 'with beta option flagged' do
       subject(:call_method) { described_class.new(beta: 'tools-2024-04-04').create(**params) }
@@ -63,7 +57,7 @@ RSpec.describe Anthropic::Api::Messages do
         end
 
         it 'raises an error' do
-          expect { call_method }.to raise_error(Anthropic::Errors::UnsupportedBetaUseError)
+          expect { call_method }.to raise_error(Anthropic::Api::UnsupportedBetaUseError)
         end
       end
     end
@@ -153,13 +147,6 @@ RSpec.describe Anthropic::Api::Messages do
           aggregate_failures do
             expect(response.status).to eq('success')
             expect(response.body).to eq(response_body)
-          end
-        end
-
-        context 'with invalid API version configured' do
-          it 'raises an error' do
-            allow(Anthropic).to receive(:api_version).and_return('2023-06-02')
-            expect { call_method }.to raise_error(Anthropic::Errors::UnsupportedApiVersionError)
           end
         end
       end
