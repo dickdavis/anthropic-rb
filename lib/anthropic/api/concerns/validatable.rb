@@ -9,19 +9,19 @@ module Anthropic
         def validate!(params)
           JSON::Validator.validate!(schema, params)
         rescue JSON::Schema::ValidationError => error
-          raise Anthropic::Errors::SchemaValidationError, error.message
+          raise Anthropic::Api::SchemaValidationError, error.message
         end
 
         def schema
           api_schema = version_config['schema']
 
           unless api_schema
-            raise Anthropic::Errors::MissingSchemaError, "Missing schema for API version: #{Anthropic.api_version}"
+            raise Anthropic::Api::MissingSchemaError, "Missing schema for API version: #{Anthropic.api_version}"
           end
 
           if beta
             beta_schema = beta_config['schema']
-            raise Anthropic::Errors::InvalidBetaConfigurationError, "Missing beta schema: #{beta}" unless beta_schema
+            raise Anthropic::Api::InvalidBetaConfigurationError, "Missing beta schema: #{beta}" unless beta_schema
 
             api_schema['properties'].merge!(beta_schema)
           end

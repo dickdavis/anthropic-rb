@@ -5,6 +5,24 @@ require_relative 'concerns/validatable'
 
 module Anthropic
   module Api
+    # Error for when a beta feature is configured incorrectly.
+    class InvalidBetaConfigurationError < StandardError; end
+
+    # Error for when API version is missing a schema.
+    class MissingSchemaError < StandardError; end
+
+    # Error for when the provided params do not match the API schema
+    class SchemaValidationError < StandardError; end
+
+    # Error for when the API version is not supported.
+    class UnsupportedApiVersionError < StandardError; end
+
+    # Error for when a beta feature is not used correctly.
+    class UnsupportedBetaUseError < StandardError; end
+
+    # Error for when the provided beta is not supported.
+    class UnsupportedBetaError < StandardError; end
+
     ##
     # Provides a base class for APIs
     class Base
@@ -29,7 +47,7 @@ module Anthropic
         @version_config ||= catch(:version_found) do
           found_config = Anthropic.versions[api.to_sym].find { |config| config['version'] == Anthropic.api_version }
           unless found_config
-            raise Anthropic::Errors::UnsupportedApiVersionError, "Unsupported API version: #{Anthropic.api_version}"
+            raise Anthropic::Api::UnsupportedApiVersionError, "Unsupported API version: #{Anthropic.api_version}"
           end
 
           throw :version_found, found_config
@@ -41,7 +59,7 @@ module Anthropic
 
         @beta_config = catch(:beta_found) do
           found_config = Anthropic.betas.find { |config| config['id'] == beta }
-          raise Anthropic::Errors::UnsupportedBetaError, "#{beta} not supported" unless found_config
+          raise Anthropic::Api::UnsupportedBetaError, "#{beta} not supported" unless found_config
 
           throw :beta_found, found_config
         end

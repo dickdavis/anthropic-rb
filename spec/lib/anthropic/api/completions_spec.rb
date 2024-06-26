@@ -12,13 +12,7 @@ RSpec.describe Anthropic::Api::Completions do
   describe '#create' do
     subject(:call_method) { completions_api.create(**params) }
 
-    context 'with invalid params' do
-      let(:params) { { model: 'foo' } }
-
-      it 'raises an error' do
-        expect { call_method }.to raise_error(Anthropic::Errors::SchemaValidationError)
-      end
-    end
+    shared_examples 'validates the params against the specified API version'
 
     context 'with valid params' do
       # rubocop:disable RSpec/NestedGroups
