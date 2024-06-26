@@ -30,6 +30,23 @@
       "temperature": {
         "type": "number"
       },
+      "tools": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "input_schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
       "top_k": {
         "type": "integer"
       },

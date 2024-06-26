@@ -17,9 +17,6 @@ module Anthropic
     # Error for when the API version is not supported.
     class UnsupportedApiVersionError < StandardError; end
 
-    # Error for when a beta feature is not used correctly.
-    class UnsupportedBetaUseError < StandardError; end
-
     # Error for when the provided beta is not supported.
     class UnsupportedBetaError < StandardError; end
 

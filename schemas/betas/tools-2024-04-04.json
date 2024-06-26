@@ -1,7 +1,7 @@
 {
   "id": "tools-2024-04-04",
-  "name": "Tools",
-  "description": "Equips Claude with custom tools for interacting with clients for a wide variety of tasks.",
+  "name": "[Deprecated] Tools",
+  "description": "[Deprecated] Equips Claude with custom tools for interacting with clients for a wide variety of tasks.",
   "documentation": "https://docs.anthropic.com/claude/docs/tool-use",
   "header" : { "anthropic-beta": "tools-2024-04-04"  },
   "schema": {

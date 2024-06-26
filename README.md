@@ -90,7 +90,7 @@ end
 # Hello! Not much up with me, I'm an AI assistant created by Anthropic.
 ```
 
-You can also experiment with the new tools beta by passing the `beta` name when calling the API. This will ensure each request includes the correct beta header and validate properly.
+You can also pass in a list of tools the assistant can use. You can find out more information about tools in the [documentation](https://docs.anthropic.com/claude/docs/tool-use).
 
 ```ruby
 tools = [
@@ -107,15 +107,13 @@ tools = [
   }
 ]
 
-Anthropic.messages(beta: 'tools-2024-04-04').create(
+Anthropic.messages.create(
   model: 'claude-3-opus-20240229',
   max_tokens: 200,
   tools:,
   messages: [{role: 'user', content: 'What is the weather like in Nashville?'}]
 )
 ```
-
-Streaming is currently not supported by the tools beta. You can find out more information about tools in the [documentation](https://docs.anthropic.com/claude/docs/tool-use).
 
 ### Completions API
 
