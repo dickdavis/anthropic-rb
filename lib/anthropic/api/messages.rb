@@ -4,7 +4,7 @@ module Anthropic
   module Api
     ##
     # Provides bindings for the Anthropic messages API
-    class Messages < BaseApi
+    class Messages < Base
       def create(**params, &)
         streaming = params[:stream]
         if streaming && beta_loaded?('tools-2024-04-04')
