@@ -15,6 +15,8 @@ module Anthropic
           }.merge(headers)
         ).post(url, json: data)
 
+        raise response.error if response.is_a?(HTTPX::ErrorResponse)
+
         response_data = build_response(response.body)
 
         case response.status
