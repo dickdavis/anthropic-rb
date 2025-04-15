@@ -1,5 +1,7 @@
 ## ✨ anthropic-rb ✨
 
+**NOTICE**: Anthropic is rolling out an [official Ruby SDK](https://github.com/anthropics/anthropic-sdk-ruby). It's currently in beta and will be fully released after the `anthropic` gem is migrated over. Once the official release is out, this project will be archived. You are encouraged to start migrating over using that library as this project will no longer receive updates.
+
 Ruby bindings for the Anthropic API. This library is unofficial and is not affiliated with Anthropic PBC.
 
 The goal of this project is feature parity with Anthropic's Python SDK until an official Ruby SDK is available.
